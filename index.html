@@ -85,128 +85,76 @@
 
 <body>
 
-    <div id="root"></div>
+<div id="root"></div>
 
-    <script>
+<script>
 
-        // ================= المنتج =================
+// ================= المنتج =================
 
-        const PRODUCT = {
-            name: "⌚ ساعة ذكية برو MAX",
-            price: 12990,
-            discount: 28,
-            image: "images/nassim.png",
+const PRODUCT = {
+    name: "⌚ ساعة ذكية برو MAX",
+    price: 12990,
+    discount: 28,
+    image: "images/nassim.png",
+    features: [
+        { icon: "fas fa-heartbeat", text: "قياس ضربات القلب" },
+        { icon: "fas fa-mobile-alt", text: "إشعارات الهاتف" },
+        { icon: "fas fa-water", text: "مقاومة الماء" },
+        { icon: "fas fa-battery-full", text: "بطارية قوية" }
+    ]
+};
 
-            features: [
-                {
-                    icon: "fas fa-heartbeat",
-                    text: "قياس ضربات القلب"
-                },
+// ================= الولايات =================
 
-                {
-                    icon: "fas fa-mobile-alt",
-                    text: "إشعارات الهاتف"
-                },
+const STATES = [
+    { name: "الجزائر", office: 400, home: 700 },
+    { name: "وهران", office: 400, home: 700 },
+    { name: "قسنطينة", office: 400, home: 700 },
+    { name: "سطيف", office: 400, home: 700 },
+    { name: "باتنة", office: 400, home: 700 },
+    { name: "بليدة", office: 400, home: 700 }
+];
 
-                {
-                    icon: "fas fa-water",
-                    text: "مقاومة للماء"
-                },
+// ================= الحالة =================
 
-                {
-                    icon: "fas fa-battery-full",
-                    text: "بطارية قوية"
-                }
-            ]
-        };
+let formData = {
+    firstName: "",
+    lastName: "",
+    phone: "",
+    state: "",
+    delivery: "office"
+};
 
-        // ================= الولايات =================
+const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 
-        const STATES = [
+// ================= حساب التوصيل =================
 
-            { name: "أدرار", office: 400, home: 700 },
-            { name: "الشلف", office: 400, home: 700 },
-            { name: "الأغواط", office: 400, home: 700 },
-            { name: "أم البواقي", office: 400, home: 700 },
-            { name: "باتنة", office: 400, home: 700 },
-            { name: "بجاية", office: 400, home: 700 },
-            { name: "بسكرة", office: 400, home: 700 },
-            { name: "بشار", office: 400, home: 700 },
-            { name: "البليدة", office: 400, home: 700 },
-            { name: "البويرة", office: 400, home: 700 },
+function shippingPrice() {
+    const selected = STATES.find(s => s.name === formData.state);
+    if (!selected) return 0;
+    return formData.delivery === "home"
+        ? selected.home
+        : selected.office;
+}
 
-            { name: "تمنراست", office: 400, home: 700 },
-            { name: "تبسة", office: 400, home: 700 },
-            { name: "تلمسان", office: 400, home: 700 },
-            { name: "تيارت", office: 400, home: 700 },
-            { name: "تيزي وزو", office: 400, home: 700 },
-            { name: "الجزائر", office: 400, home: 700 },
-            { name: "الجلفة", office: 400, home: 700 },
-            { name: "جيجل", office: 400, home: 700 },
-            { name: "سطيف", office: 400, home: 700 },
-            { name: "سعيدة", office: 400, home: 700 },
+// ================= العرض =================
 
-            { name: "سكيكدة", office: 400, home: 700 },
-            { name: "سيدي بلعباس", office: 400, home: 700 },
-            { name: "عنابة", office: 400, home: 700 },
-            { name: "قالمة", office: 400, home: 700 },
-            { name: "قسنطينة", office: 400, home: 700 },
-            { name: "المدية", office: 400, home: 700 },
-            { name: "مستغانم", office: 400, home: 700 },
-            { name: "المسيلة", office: 400, home: 700 },
-            { name: "معسكر", office: 400, home: 700 },
-            { name: "ورقلة", office: 400, home: 700 },
+function render() {
 
-            { name: "وهران", office: 400, home: 700 }
+    const shipping = shippingPrice();
+    const total = finalPrice + shipping;
 
-        ];
-
-        // ================= البيانات =================
-
-        let formData = {
-            state: "",
-            delivery: "office"
-        };
-
-        // ================= السعر =================
-
-        const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
-
-        function shippingPrice() {
-
-            const selectedState = STATES.find(
-                state => state.name === formData.state
-            );
-
-            if (!selectedState) {
-                return 0;
-            }
-
-            return formData.delivery === "home"
-                ? selectedState.home
-                : selectedState.office;
-        }
-
-        // ================= عرض الصفحة =================
-
-        function render() {
-
-            const shipping = shippingPrice();
-
-            const total = finalPrice + shipping;
-
-            document.getElementById("root").innerHTML = `
+    document.getElementById("root").innerHTML = `
 
 <div class="max-w-6xl mx-auto p-4 py-8">
 
 <div class="bg-white/80 rounded-2xl p-3 text-center shadow mb-6 text-red-700 font-bold">
-🔥 أكثر من 150 طلب هذا الأسبوع
+🔥 عرض خاص لفترة محدودة
 </div>
 
 <div class="grid lg:grid-cols-2 gap-6">
 
 <!-- الصورة -->
-
 <div>
 
 <div class="bg-white rounded-3xl shadow-2xl p-6 relative overflow-hidden">
@@ -219,182 +167,82 @@
 
 </div>
 
-<div class="grid grid-cols-2 gap-3 mt-4">
-
-${PRODUCT.features.map(feature => `
-
-<div class="bg-red-600 rounded-xl p-3 text-center text-white feature-card transition">
-
-<i class="${feature.icon} text-2xl mb-2"></i>
-
-<p class="text-sm">${feature.text}</p>
-
-</div>
-
-`).join('')}
-
-</div>
-
 </div>
 
 <!-- المعلومات -->
-
 <div class="bg-white rounded-3xl shadow-2xl p-6">
 
-<div class="text-center">
-
-<h1 class="text-4xl font-bold title-float mb-3">
+<h1 class="text-3xl font-bold title-float text-center mb-4">
 ${PRODUCT.name}
 </h1>
 
-<div class="text-5xl font-bold text-red-600">
+<div class="text-center text-4xl font-bold text-red-600">
 ${Math.round(finalPrice)} دج
 </div>
 
-<div class="line-through text-gray-400 mt-2">
+<div class="text-center line-through text-gray-400">
 ${PRODUCT.price} دج
 </div>
 
-<div class="bg-red-100 text-red-700 text-center p-3 rounded-xl mt-4 font-bold animate-pulse">
-🔥 الكمية محدودة — اطلب الآن قبل نفاد المخزون
-</div>
-
-</div>
-
 <!-- الفورم -->
-
 <div class="space-y-3 mt-5">
 
-<input 
-type="text"
-id="firstName"
-placeholder="الاسم *"
-class="w-full p-3 rounded-xl">
+<input id="firstName" placeholder="الاسم *" value="${formData.firstName}" class="w-full p-3 rounded-xl">
 
-<input 
-type="text"
-id="lastName"
-placeholder="اللقب *"
-class="w-full p-3 rounded-xl">
+<input id="lastName" placeholder="اللقب *" value="${formData.lastName}" class="w-full p-3 rounded-xl">
 
-<input 
-type="text"
-id="phone"
-placeholder="رقم الهاتف *"
-class="w-full p-3 rounded-xl">
+<input id="phone" placeholder="رقم الهاتف *" value="${formData.phone}" class="w-full p-3 rounded-xl">
 
-<select id="state"
-class="w-full p-3 rounded-xl">
+<select id="state" class="w-full p-3 rounded-xl">
+<option value="">اختر الولاية</option>
 
-<option value="">
-اختر الولاية *
+${STATES.map(s => `
+<option value="${s.name}" ${formData.state === s.name ? "selected" : ""}>
+${s.name}
 </option>
-
-${STATES.map(state => `
-
-<option value="${state.name}">
-
-${state.name}
-
-</option>
-
 `).join('')}
 
 </select>
 
-<select id="delivery"
-class="w-full p-3 rounded-xl">
-
-<option value="office">
-📦 توصيل للمكتب
-</option>
-
-<option value="home">
-🏠 توصيل للمنزل
-</option>
-
+<select id="delivery" class="w-full p-3 rounded-xl">
+<option value="office" ${formData.delivery === "office" ? "selected" : ""}>توصيل للمكتب</option>
+<option value="home" ${formData.delivery === "home" ? "selected" : ""}>توصيل للمنزل</option>
 </select>
 
 </div>
 
-<!-- السعر -->
-
-<div class="bg-red-50 rounded-2xl p-4 mt-5 space-y-2">
+<!-- المجموع -->
+<div class="bg-red-50 p-4 rounded-xl mt-4">
 
 <div class="flex justify-between">
-<span>سعر المنتج:</span>
+<span>المنتج</span>
 <span>${Math.round(finalPrice)} دج</span>
 </div>
 
 <div class="flex justify-between">
-<span>سعر التوصيل:</span>
+<span>التوصيل</span>
 <span>${shipping} دج</span>
 </div>
 
-<div class="border-t pt-2 flex justify-between text-xl font-bold">
-<span>المجموع:</span>
-<span class="text-red-600">
-${Math.round(total)} دج
-</span>
+<div class="flex justify-between font-bold text-lg border-t mt-2 pt-2">
+<span>المجموع</span>
+<span class="text-red-600">${Math.round(total)} دج</span>
 </div>
 
 </div>
 
-<!-- الثقة -->
-
-<div class="bg-green-50 border border-green-200 rounded-xl p-3 mt-4 text-center">
-
-<div class="text-green-700 font-bold">
-✔️ الدفع عند الاستلام
-</div>
-
-<div class="text-green-700 font-bold">
-✔️ ضمان جودة المنتج
-</div>
-
-<div class="text-green-700 font-bold">
-✔️ توصيل سريع إلى جميع الولايات
-</div>
-
-</div>
-
-<!-- الزر -->
-
-<button 
-id="orderBtn"
-class="w-full mt-5 bg-gradient-to-r from-red-600 to-red-800 text-white p-4 rounded-xl btn-glow font-bold text-lg">
-
-🛒 تأكيد الطلب الآن
-
+<!-- زر -->
+<button id="orderBtn"
+class="w-full mt-5 bg-red-600 text-white p-4 rounded-xl font-bold btn-glow">
+🛒 تأكيد الطلب
 </button>
 
-<!-- خدمة الزبائن -->
+<!-- الزبائن -->
+<div class="mt-5 bg-red-50 p-4 rounded-xl text-center">
 
-<div class="mt-5 bg-red-50 border border-red-200 rounded-2xl p-4">
-
-<div class="flex items-center gap-3 mb-2">
-
-<i class="fas fa-headset text-red-600 text-2xl"></i>
-
-<div>
-
-<h3 class="font-bold text-red-700">
-مصلحة الزبائن
-</h3>
-
-<p class="text-gray-600 text-sm">
-متواجدون للرد على جميع استفساراتكم
-</p>
-
-</div>
-
-</div>
-
-<a href="tel:0659418701"
-class="block text-center bg-red-600 hover:bg-red-700 transition text-white py-3 rounded-xl font-bold mt-3">
-
+<div class="font-bold text-red-700">مصلحة الزبائن</div>
+<a href="tel:0659418701" class="text-red-600 font-bold">
 📞 0659418701
-
 </a>
 
 </div>
@@ -404,137 +252,91 @@ class="block text-center bg-red-600 hover:bg-red-700 transition text-white py-3 
 </div>
 
 </div>
+
 `;
 
-            // تحديث الأسعار
+    // ================= حفظ البيانات بدون مسح =================
 
-            document.getElementById("state").onchange = function (e) {
-                formData.state = e.target.value;
-                render();
-            };
+    document.getElementById("firstName").oninput = (e) => {
+        formData.firstName = e.target.value;
+    };
 
-            document.getElementById("delivery").onchange = function (e) {
-                formData.delivery = e.target.value;
-                render();
-            };
+    document.getElementById("lastName").oninput = (e) => {
+        formData.lastName = e.target.value;
+    };
 
-            // زر الطلب
+    document.getElementById("phone").oninput = (e) => {
+        formData.phone = e.target.value;
+    };
 
-            document.getElementById("orderBtn").onclick = submitOrder;
-
-        }
-
-        // ================= إرسال الطلب =================
-
-        async function submitOrder() {
-
-            const firstName = document.getElementById("firstName").value;
-
-            const lastName = document.getElementById("lastName").value;
-
-            const phone = document.getElementById("phone").value;
-
-            if (!firstName) {
-                alert("أدخل الاسم");
-                return;
-            }
-
-            if (!lastName) {
-                alert("أدخل اللقب");
-                return;
-            }
-
-            if (!phone) {
-                alert("أدخل رقم الهاتف");
-                return;
-            }
-
-            if (!formData.state) {
-                alert("اختر الولاية");
-                return;
-            }
-
-            const phoneRegex = /^(05|06|07)[0-9]{8}$/;
-
-            if (!phoneRegex.test(phone)) {
-                alert("رقم الهاتف غير صحيح");
-                return;
-            }
-
-            const shipping = shippingPrice();
-
-            const total = finalPrice + shipping;
-
-            const btn = document.getElementById("orderBtn");
-
-            btn.innerHTML = "⏳ جاري الإرسال...";
-
-            btn.disabled = true;
-
-            try {
-
-                const res = await fetch("/api/send", {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        firstName,
-                        lastName,
-                        phone,
-
-                        state: formData.state,
-
-                        deliveryType: formData.delivery,
-
-                        shipping,
-                        total,
-
-                        productName: PRODUCT.name
-
-                    })
-
-                });
-
-                const data = await res.json();
-
-                if (data.ok) {
-
-                    alert("✅ تم إرسال الطلب بنجاح");
-
-                    document.getElementById("firstName").value = "";
-
-                    document.getElementById("lastName").value = "";
-
-                    document.getElementById("phone").value = "";
-
-                } else {
-
-                    alert("❌ فشل الإرسال");
-
-                }
-
-            } catch (err) {
-
-                alert("❌ خطأ في الاتصال بالسيرفر");
-
-                console.log(err);
-
-            }
-
-            btn.innerHTML = "🛒 تأكيد الطلب الآن";
-
-            btn.disabled = false;
-        }
-
+    document.getElementById("state").onchange = (e) => {
+        formData.state = e.target.value;
         render();
+    };
 
-    </script>
+    document.getElementById("delivery").onchange = (e) => {
+        formData.delivery = e.target.value;
+        render();
+    };
+
+    document.getElementById("orderBtn").onclick = submitOrder;
+}
+
+// ================= إرسال الطلب =================
+
+async function submitOrder() {
+
+    if (!formData.firstName) return alert("أدخل الاسم");
+    if (!formData.lastName) return alert("أدخل اللقب");
+    if (!formData.phone) return alert("أدخل الهاتف");
+    if (!formData.state) return alert("اختر الولاية");
+
+    const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+    if (!phoneRegex.test(formData.phone)) return alert("رقم غير صحيح");
+
+    const shipping = shippingPrice();
+    const total = finalPrice + shipping;
+
+    const btn = document.getElementById("orderBtn");
+    btn.innerHTML = "جاري الإرسال...";
+    btn.disabled = true;
+
+    try {
+
+        const res = await fetch("/api/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                phone: formData.phone,
+                state: formData.state,
+                deliveryType: formData.delivery,
+                shipping,
+                total,
+                productName: PRODUCT.name
+            })
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+            alert("تم إرسال الطلب");
+        } else {
+            alert("فشل الإرسال");
+        }
+
+    } catch (e) {
+        alert("خطأ في الاتصال");
+    }
+
+    btn.innerHTML = "🛒 تأكيد الطلب";
+    btn.disabled = false;
+}
+
+render();
+
+</script>
 
 </body>
-
 </html>
