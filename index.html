@@ -157,16 +157,7 @@
             { name: "معسكر", office: 400, home: 700 },
             { name: "ورقلة", office: 400, home: 700 },
 
-            { name: "وهران", office: 400, home: 700 },
-            { name: "البيض", office: 400, home: 700 },
-            { name: "إليزي", office: 400, home: 700 },
-            { name: "برج بوعريريج", office: 400, home: 700 },
-            { name: "بومرداس", office: 400, home: 700 },
-            { name: "الطارف", office: 400, home: 700 },
-            { name: "تندوف", office: 400, home: 700 },
-            { name: "تيسمسيلت", office: 400, home: 700 },
-            { name: "الوادي", office: 400, home: 700 },
-            { name: "خنشلة", office: 400, home: 700 }
+            { name: "وهران", office: 400, home: 700 }
 
         ];
 
@@ -270,40 +261,25 @@ ${PRODUCT.price} دج
 
 </div>
 
-<!-- المؤقت -->
-
-<div class="timer mt-5">
-
-<div class="flex justify-center gap-3">
-
-<div class="timer-number">
-<div class="text-white text-2xl font-bold">01</div>
-<div class="text-xs text-white">ساعة</div>
-</div>
-
-<div class="timer-number">
-<div class="text-white text-2xl font-bold">25</div>
-<div class="text-xs text-white">دقيقة</div>
-</div>
-
-<div class="timer-number">
-<div class="text-white text-2xl font-bold">48</div>
-<div class="text-xs text-white">ثانية</div>
-</div>
-
-</div>
-
-</div>
-
 <!-- الفورم -->
 
 <div class="space-y-3 mt-5">
 
-<input type="text"
-placeholder="الاسم الكامل *"
+<input 
+type="text"
+id="firstName"
+placeholder="الاسم *"
 class="w-full p-3 rounded-xl">
 
-<input type="text"
+<input 
+type="text"
+id="lastName"
+placeholder="اللقب *"
+class="w-full p-3 rounded-xl">
+
+<input 
+type="text"
+id="phone"
 placeholder="رقم الهاتف *"
 class="w-full p-3 rounded-xl">
 
@@ -316,8 +292,7 @@ class="w-full p-3 rounded-xl">
 
 ${STATES.map(state => `
 
-<option value="${state.name}"
-${formData.state === state.name ? "selected" : ""}>
+<option value="${state.name}">
 
 ${state.name}
 
@@ -330,18 +305,12 @@ ${state.name}
 <select id="delivery"
 class="w-full p-3 rounded-xl">
 
-<option value="office"
-${formData.delivery === "office" ? "selected" : ""}>
-
+<option value="office">
 📦 توصيل للمكتب
-
 </option>
 
-<option value="home"
-${formData.delivery === "home" ? "selected" : ""}>
-
+<option value="home">
 🏠 توصيل للمنزل
-
 </option>
 
 </select>
@@ -391,7 +360,9 @@ ${Math.round(total)} دج
 
 <!-- الزر -->
 
-<button class="w-full mt-5 bg-gradient-to-r from-red-600 to-red-800 text-white p-4 rounded-xl btn-glow font-bold text-lg">
+<button 
+id="orderBtn"
+class="w-full mt-5 bg-gradient-to-r from-red-600 to-red-800 text-white p-4 rounded-xl btn-glow font-bold text-lg">
 
 🛒 تأكيد الطلب الآن
 
@@ -428,27 +399,6 @@ class="block text-center bg-red-600 hover:bg-red-700 transition text-white py-3 
 
 </div>
 
-<!-- الضمانات -->
-
-<div class="flex justify-around mt-6 text-center text-sm text-gray-500">
-
-<div>
-<i class="fas fa-truck text-red-600"></i>
-<span>توصيل سريع</span>
-</div>
-
-<div>
-<i class="fas fa-credit-card text-red-600"></i>
-<span>الدفع عند الاستلام</span>
-</div>
-
-<div>
-<i class="fas fa-shield-alt text-red-600"></i>
-<span>ضمان المنتج</span>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -456,7 +406,7 @@ class="block text-center bg-red-600 hover:bg-red-700 transition text-white py-3 
 </div>
 `;
 
-            // تحديث السعر
+            // تحديث الأسعار
 
             document.getElementById("state").onchange = function (e) {
                 formData.state = e.target.value;
@@ -468,6 +418,117 @@ class="block text-center bg-red-600 hover:bg-red-700 transition text-white py-3 
                 render();
             };
 
+            // زر الطلب
+
+            document.getElementById("orderBtn").onclick = submitOrder;
+
+        }
+
+        // ================= إرسال الطلب =================
+
+        async function submitOrder() {
+
+            const firstName = document.getElementById("firstName").value;
+
+            const lastName = document.getElementById("lastName").value;
+
+            const phone = document.getElementById("phone").value;
+
+            if (!firstName) {
+                alert("أدخل الاسم");
+                return;
+            }
+
+            if (!lastName) {
+                alert("أدخل اللقب");
+                return;
+            }
+
+            if (!phone) {
+                alert("أدخل رقم الهاتف");
+                return;
+            }
+
+            if (!formData.state) {
+                alert("اختر الولاية");
+                return;
+            }
+
+            const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+
+            if (!phoneRegex.test(phone)) {
+                alert("رقم الهاتف غير صحيح");
+                return;
+            }
+
+            const shipping = shippingPrice();
+
+            const total = finalPrice + shipping;
+
+            const btn = document.getElementById("orderBtn");
+
+            btn.innerHTML = "⏳ جاري الإرسال...";
+
+            btn.disabled = true;
+
+            try {
+
+                const res = await fetch("/api/send", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        firstName,
+                        lastName,
+                        phone,
+
+                        state: formData.state,
+
+                        deliveryType: formData.delivery,
+
+                        shipping,
+                        total,
+
+                        productName: PRODUCT.name
+
+                    })
+
+                });
+
+                const data = await res.json();
+
+                if (data.ok) {
+
+                    alert("✅ تم إرسال الطلب بنجاح");
+
+                    document.getElementById("firstName").value = "";
+
+                    document.getElementById("lastName").value = "";
+
+                    document.getElementById("phone").value = "";
+
+                } else {
+
+                    alert("❌ فشل الإرسال");
+
+                }
+
+            } catch (err) {
+
+                alert("❌ خطأ في الاتصال بالسيرفر");
+
+                console.log(err);
+
+            }
+
+            btn.innerHTML = "🛒 تأكيد الطلب الآن";
+
+            btn.disabled = false;
         }
 
         render();
