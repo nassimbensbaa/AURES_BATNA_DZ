@@ -230,14 +230,21 @@ const PRODUCT = {
     name: "🔥 ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
-    image: "images/nassim.png"
+    image: "images/nassim.png",
+    // ✅ تم إضافة خاصية features (الميزات)
+    features: [
+        { icon: "fas fa-heartbeat", text: "قياس نبضات القلب" },
+        { icon: "fas fa-shoe-prints", text: "عداد خطى" },
+        { icon: "fas fa-moon", text: "مراقبة النوم" },
+        { icon: "fas fa-bluetooth-b", text: "بلوتوث 5.0" }
+    ]
 };
 
+// ✅ تعريف finalPrice مرة واحدة فقط
 const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 
 // ================= أسعار التوصيل حسب الولاية =================
 const shippingPrices = {
-    // الولايات الشمالية
     "أدرار": { office: 500, home: 900 },
     "الشلف": { office: 400, home: 700 },
     "الأغواط": { office: 500, home: 900 },
@@ -290,9 +297,6 @@ const shippingPrices = {
 
 // الحصول على قائمة الولايات مرتبة
 const allStates = Object.keys(shippingPrices).sort();
-
-const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
-let countdownTimer;
 
 // ================= الحالة =================
 let formData = {
@@ -387,7 +391,7 @@ function render(){
                                  alt="ساعة ذكية">
                         </div>
                         
-                        <!-- الميزات -->
+                        <!-- الميزات - تم إصلاحها ✅ -->
                         <div class="grid grid-cols-2 gap-3 mt-4">
                             ${PRODUCT.features.map(feature => `
                                 <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center text-white feature-card transition">
