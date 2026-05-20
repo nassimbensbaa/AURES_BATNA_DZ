@@ -210,6 +210,15 @@
             background: linear-gradient(135deg, #f59e0b, #ef4444);
             border-radius: 10px;
         }
+
+        /* New flash badges animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1);}
+            50% { opacity: 0.8; transform: scale(1.05);}
+        }
+        .flash-badge {
+            animation: blink 1s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
@@ -227,17 +236,19 @@
 <script>
 // ================= المنتج =================
 const PRODUCT = {
-    name: "⌚ ساعة ذكية برو MAX",
+    name: "🔥 ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
     image: "images/nassim.png",
     features: [
-        { icon: "fas fa-heartbeat", text: "قياس معدل ضربات القلب" },
-        { icon: "fas fa-chart-line", text: "تتبع النشاط الرياضي" },
-        { icon: "fas fa-mobile-alt", text: "اتصال بالهاتف" },
-        { icon: "fas fa-water", text: "مقاومة للماء IP68" }
+        { icon: "fas fa-heartbeat", text: "قياس نبضات القلب" },
+        { icon: "fas fa-charging-station", text: "بطارية تدوم 7 أيام" },
+        { icon: "fas fa-mobile-alt", text: "شاشة AMOLED" },
+        { icon: "fas fa-water", text: "مقاومة الماء" }
     ]
 };
+
+const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 
 // ================= أسعار التوصيل حسب الولاية =================
 const shippingPrices = {
@@ -295,7 +306,6 @@ const shippingPrices = {
 // الحصول على قائمة الولايات مرتبة
 const allStates = Object.keys(shippingPrices).sort();
 
-const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 let countdownTimer;
 
 // ================= الحالة =================
@@ -373,10 +383,11 @@ function render(){
     document.getElementById("root").innerHTML = `
         <div class="max-w-5xl mx-auto p-4 py-8">
             <div class="card-animate">
-                <!-- شريط المبيعات -->
-                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-3 mb-6 text-center text-white">
+                <!-- شريط المبيعات مع ومضة -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-3 mb-6 text-center text-white flash-badge">
                     <i class="fas fa-fire text-orange-500"></i>
-                    <span class="font-bold">${Math.floor(Math.random() * 50) + 20}</span> شخص اشتروا هذا المنتج اليوم
+                    <span class="font-bold">${Math.floor(Math.random() * 50) + 20}</span> شخص يشاهد هذا المنتج الآن
+                    <i class="fas fa-eye mr-2"></i>
                 </div>
 
                 <div class="grid lg:grid-cols-2 gap-6">
@@ -461,33 +472,60 @@ function render(){
                             ${formData.loading ? `<span class="loading"></span> جاري الإرسال...` : '🛒 تأكيد الطلب الآن'}
                         </button>
 
-                        <!-- ضمانات -->
-                        <div class="flex justify-around mt-6 text-center text-sm text-gray-500">
-                            <div><i class="fas fa-truck text-green-600"></i> <span>توصيل سريع</span></div>
-                            <div><i class="fas fa-credit-card text-blue-600"></i> <span>الدفع عند الاستلام</span></div>
-                            <div><i class="fas fa-shield-alt text-purple-600"></i> <span>ضمان 12 شهر</span></div>
+                        <!-- ضمانات معدلة: تم استبدال تعليقات الفايسبوك بمعلومات مصلحة الزبون والتوصيل السريع -->
+                        <div class="grid grid-cols-2 gap-3 mt-6 text-center text-sm">
+                            <div class="bg-orange-50 p-3 rounded-xl transition hover:scale-105">
+                                <i class="fas fa-headset text-orange-600 text-2xl mb-1"></i>
+                                <p class="font-bold text-gray-800">مصلحة الزبائن</p>
+                                <p class="text-orange-600 font-bold text-md mt-1 dir-ltr">0659418701</p>
+                                <p class="text-xs text-gray-500">متاحة 24/7</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-xl transition hover:scale-105">
+                                <i class="fas fa-rocket text-green-600 text-2xl mb-1"></i>
+                                <p class="font-bold text-gray-800">التوصيل السريع</p>
+                                <p class="text-xs text-gray-600">في جميع الولايات</p>
+                                <p class="text-green-600 text-xs font-bold">2-5 أيام كحد أقصى</p>
+                            </div>
+                        </div>
+                        
+                        <!-- ومضات إضافية للمتجر الإلكتروني -->
+                        <div class="flex justify-around mt-4 pt-2 border-t border-dashed text-xs font-bold">
+                            <div class="flash-badge"><i class="fas fa-tags text-red-500 ml-1"></i> عروض حصرية أونلاين</div>
+                            <div><i class="fas fa-undo-alt text-blue-500 ml-1"></i> استبدال مجاني</div>
+                            <div><i class="fas fa-lock text-purple-500 ml-1"></i> دفع آمن عند الاستلام</div>
                         </div>
 
                         <p class="text-center mt-3 ${messageClass} text-sm">${formData.message}</p>
                     </div>
                 </div>
-
-                <!-- قسم الشهادات -->
-                <div class="mt-8 grid md:grid-cols-3 gap-4">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center text-white">
-                        <i class="fas fa-star text-yellow-400 text-2xl mb-2"></i>
-                        <p class="text-sm">"ساعة رائعة جداً أنصح بها"</p>
-                        <p class="text-xs text-gray-300 mt-2">- أحمد محمد</p>
+                
+                <!-- قسم الخدمات الإضافية وومضات المتجر - حذف تعليقات فيسبوك بالكامل واستبدالها بلمسات تسويقية-->
+                <div class="mt-8 bg-gradient-to-l from-indigo-50 to-white rounded-3xl p-5 shadow-lg">
+                    <div class="text-center mb-3">
+                        <i class="fas fa-store text-indigo-600 text-2xl"></i>
+                        <h3 class="font-bold text-lg text-gray-800 mr-2">مميزات التسوق من متجر VIP</h3>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center text-white">
-                        <i class="fas fa-star text-yellow-400 text-2xl mb-2"></i>
-                        <p class="text-sm">"خدمة ممتازة وجودة عالية"</p>
-                        <p class="text-xs text-gray-300 mt-2">- سارة علي</p>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 text-center text-white">
-                        <i class="fas fa-star text-yellow-400 text-2xl mb-2"></i>
-                        <p class="text-sm">"التوصيل كان سريع جداً"</p>
-                        <p class="text-xs text-gray-300 mt-2">- محمد رضا</p>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="text-center p-2">
+                            <i class="fas fa-shipping-fast text-blue-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">توصيل فوري خلال 48 ساعة</p>
+                            <p class="text-xs text-gray-500">للطلبات قبل 2 ظهراً</p>
+                        </div>
+                        <div class="text-center p-2">
+                            <i class="fas fa-wallet text-green-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">الدفع عند الاستلام</p>
+                            <p class="text-xs text-gray-500">اطلب وادفع بعد الاستلام</p>
+                        </div>
+                        <div class="text-center p-2">
+                            <i class="fas fa-medal text-yellow-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">ضمان استعادة الحقوق</p>
+                            <p class="text-xs text-gray-500">14 يوم لاسترجاع المنتج</p>
+                        </div>
+                        <div class="text-center p-2 relative flash-badge">
+                            <i class="fas fa-gem text-purple-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">تخفيضات VIP</p>
+                            <p class="text-xs text-gray-500">خصم إضافي على الطلبات الكبيرة</p>
+                        </div>
                     </div>
                 </div>
             </div>
