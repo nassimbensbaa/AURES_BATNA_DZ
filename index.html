@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -231,7 +230,7 @@ const PRODUCT = {
     name: "⌚ ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
-    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&h=500&fit=crop",
+    image: "images/nassim.png",
     features: [
         { icon: "fas fa-heartbeat", text: "قياس معدل ضربات القلب" },
         { icon: "fas fa-chart-line", text: "تتبع النشاط الرياضي" },
@@ -239,6 +238,62 @@ const PRODUCT = {
         { icon: "fas fa-water", text: "مقاومة للماء IP68" }
     ]
 };
+
+// ================= أسعار التوصيل حسب الولاية =================
+const shippingPrices = {
+    // الولايات الشمالية
+    "أدرار": { office: 500, home: 900 },
+    "الشلف": { office: 400, home: 700 },
+    "الأغواط": { office: 500, home: 900 },
+    "أم البواقي": { office: 500, home: 900 },
+    "باتنة": { office: 500, home: 900 },
+    "بجاية": { office: 450, home: 800 },
+    "بسكرة": { office: 500, home: 900 },
+    "بشار": { office: 600, home: 1000 },
+    "البليدة": { office: 400, home: 700 },
+    "البويرة": { office: 450, home: 800 },
+    "تمنراست": { office: 700, home: 1200 },
+    "تبسة": { office: 500, home: 900 },
+    "تلمسان": { office: 500, home: 900 },
+    "تيارت": { office: 500, home: 900 },
+    "تيزي وزو": { office: 450, home: 800 },
+    "الجزائر": { office: 350, home: 600 },
+    "الجلفة": { office: 500, home: 900 },
+    "جيجل": { office: 450, home: 800 },
+    "سطيف": { office: 450, home: 800 },
+    "سعيدة": { office: 500, home: 900 },
+    "سكيكدة": { office: 450, home: 800 },
+    "بلعباس": { office: 500, home: 900 },
+    "عنابة": { office: 450, home: 800 },
+    "قالمة": { office: 500, home: 900 },
+    "قسنطينة": { office: 450, home: 800 },
+    "المدية": { office: 450, home: 800 },
+    "مستغانم": { office: 450, home: 800 },
+    "المسيلة": { office: 500, home: 900 },
+    "معسكر": { office: 500, home: 900 },
+    "ورقلة": { office: 600, home: 1000 },
+    "وهران": { office: 450, home: 800 },
+    "البيض": { office: 500, home: 900 },
+    "إليزي": { office: 800, home: 1300 },
+    "برج بوعريريج": { office: 450, home: 800 },
+    "بومرداس": { office: 400, home: 700 },
+    "الطارف": { office: 500, home: 900 },
+    "تندوف": { office: 800, home: 1300 },
+    "تيسمسيلت": { office: 500, home: 900 },
+    "الوادي": { office: 600, home: 1000 },
+    "خنشلة": { office: 500, home: 900 },
+    "سوق أهراس": { office: 500, home: 900 },
+    "تيبازة": { office: 400, home: 700 },
+    "ميلة": { office: 500, home: 900 },
+    "عين الدفلى": { office: 450, home: 800 },
+    "النعامة": { office: 500, home: 900 },
+    "عين تيموشنت": { office: 500, home: 900 },
+    "غرداية": { office: 600, home: 1000 },
+    "غليزان": { office: 500, home: 900 }
+};
+
+// الحصول على قائمة الولايات مرتبة
+const allStates = Object.keys(shippingPrices).sort();
 
 const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 let countdownTimer;
@@ -256,13 +311,14 @@ let formData = {
 };
 
 // ================= سعر التوصيل =================
-function shippingPrice(type){
-    return type === "home" ? 700 : 400;
+function shippingPrice(state, type){
+    if(!state || !shippingPrices[state]) return type === "home" ? 700 : 400;
+    return shippingPrices[state][type];
 }
 
 // ================= عداد التوقيت =================
 function startCountdown() {
-    let timeLeft = 3600; // 60 دقيقة
+    let timeLeft = 3600;
     const timerElement = document.getElementById("timer");
     if (!timerElement) return;
 
@@ -278,7 +334,7 @@ function startCountdown() {
         const seconds = timeLeft % 60;
         
         if(timerElement) {
-            timerElement.innerHTML = 
+            timerElement.innerHTML = `
                 <div class="flex justify-center gap-3 text-center">
                     <div class="timer-number">
                         <div class="text-2xl font-bold text-white">${String(hours).padStart(2, '0')}</div>
@@ -295,7 +351,7 @@ function startCountdown() {
                         <div class="text-xs text-gray-400">ثواني</div>
                     </div>
                 </div>
-            ;
+            `;
         }
         timeLeft--;
     }, 1000);
@@ -303,13 +359,18 @@ function startCountdown() {
 
 // ================= عرض الصفحة =================
 function render(){
-    const shipping = shippingPrice(formData.delivery);
+    const shipping = shippingPrice(formData.state, formData.delivery);
     const total = finalPrice + shipping;
     const savedAmount = PRODUCT.price - finalPrice;
 
     const messageClass = formData.messageType === "success" ? "text-green-600" : "text-red-600";
 
-    document.getElementById("root").innerHTML = 
+    // إنشاء خيارات الولايات
+    const stateOptions = allStates.map(state => 
+        `<option value="${state}" ${formData.state === state ? "selected" : ""}>${state}</option>`
+    ).join('');
+
+    document.getElementById("root").innerHTML = `
         <div class="max-w-5xl mx-auto p-4 py-8">
             <div class="card-animate">
                 <!-- شريط المبيعات -->
@@ -326,17 +387,18 @@ function render(){
                                 -${PRODUCT.discount}% خصم
                             </div>
                             <img src="${PRODUCT.image}" class="w-full rounded-2xl transition-transform duration-500 group-hover:scale-105" 
-                                 onerror="this.src='https://via.placeholder.com/500x500?text=Smart+Watch'">
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/500x500?text=Smart+Watch'"
+                                 alt="ساعة ذكية">
                         </div>
                         
                         <!-- الميزات -->
                         <div class="grid grid-cols-2 gap-3 mt-4">
-                            ${PRODUCT.features.map(feature => 
+                            ${PRODUCT.features.map(feature => `
                                 <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center text-white feature-card transition">
                                     <i class="${feature.icon} text-2xl text-orange-500 mb-1"></i>
                                     <p class="text-sm">${feature.text}</p>
                                 </div>
-                            ).join('')}
+                            `).join('')}
                         </div>
                     </div>
 
@@ -369,18 +431,12 @@ function render(){
                             
                             <select id="state" class="w-full p-3 rounded-xl">
                                 <option value="">اختر الولاية *</option>
-                                <option ${formData.state === "الجزائر" ? "selected" : ""}>الجزائر</option>
-                                <option ${formData.state === "وهران" ? "selected" : ""}>وهران</option>
-                                <option ${formData.state === "باتنة" ? "selected" : ""}>باتنة</option>
-                                <option ${formData.state === "سطيف" ? "selected" : ""}>سطيف</option>
-                                <option ${formData.state === "قسنطينة" ? "selected" : ""}>قسنطينة</option>
-                                <option ${formData.state === "عنابة" ? "selected" : ""}>عنابة</option>
-                                <option ${formData.state === "بليدة" ? "selected" : ""}>بليدة</option>
+                                ${stateOptions}
                             </select>
                             
                             <select id="delivery" class="w-full p-3 rounded-xl">
-                                <option value="office" ${formData.delivery === "office" ? "selected" : ""}>📦 توصيل للمكتب (${Math.round(shippingPrice("office"))} دج)</option>
-                                <option value="home" ${formData.delivery === "home" ? "selected" : ""}>🏠 توصيل للمنزل (${Math.round(shippingPrice("home"))} دج)</option>
+                                <option value="office" ${formData.delivery === "office" ? "selected" : ""}>📦 توصيل للمكتب (${Math.round(shippingPrice(formData.state, "office"))} دج)</option>
+                                <option value="home" ${formData.delivery === "home" ? "selected" : ""}>🏠 توصيل للمنزل (${Math.round(shippingPrice(formData.state, "home"))} دج)</option>
                             </select>
                         </div>
 
@@ -402,7 +458,7 @@ function render(){
 
                         <!-- زر الطلب -->
                         <button id="btn" class="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-xl btn-glow font-bold text-lg relative overflow-hidden">
-                            ${formData.loading ? <span class="loading"></span> جاري الإرسال... : '🛒 تأكيد الطلب الآن'}
+                            ${formData.loading ? `<span class="loading"></span> جاري الإرسال...` : '🛒 تأكيد الطلب الآن'}
                         </button>
 
                         <!-- ضمانات -->
@@ -436,7 +492,7 @@ function render(){
                 </div>
             </div>
         </div>
-    ;
+    `;
 
     // ربط الأحداث
     bindEvents();
@@ -454,7 +510,7 @@ function bindEvents() {
     if(firstNameInput) firstNameInput.oninput = (e) => { formData.firstName = e.target.value; clearMessage(); removeError(e.target); };
     if(lastNameInput) lastNameInput.oninput = (e) => { formData.lastName = e.target.value; clearMessage(); removeError(e.target); };
     if(phoneInput) phoneInput.oninput = (e) => { formData.phone = e.target.value; clearMessage(); removeError(e.target); };
-    if(stateSelect) stateSelect.onchange = (e) => { formData.state = e.target.value; clearMessage(); removeError(e.target); };
+    if(stateSelect) stateSelect.onchange = (e) => { formData.state = e.target.value; clearMessage(); removeError(e.target); render(); };
     if(deliverySelect) deliverySelect.onchange = (e) => { formData.delivery = e.target.value; render(); };
     if(btn) btn.onclick = submitOrder;
 }
@@ -539,7 +595,7 @@ async function submitOrder(){
     formData.message = "";
     render();
 
-    const shipping = shippingPrice(formData.delivery);
+    const shipping = shippingPrice(formData.state, formData.delivery);
     const total = finalPrice + shipping;
 
     try {
