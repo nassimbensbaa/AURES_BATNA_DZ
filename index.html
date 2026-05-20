@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -230,7 +231,7 @@ const PRODUCT = {
     name: "⌚ ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
-    image: "images/nassim.png",  // تم التعديل: تحميل الصورة من مجلد images باسم nassim.png
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&h=500&fit=crop",
     features: [
         { icon: "fas fa-heartbeat", text: "قياس معدل ضربات القلب" },
         { icon: "fas fa-chart-line", text: "تتبع النشاط الرياضي" },
@@ -277,7 +278,7 @@ function startCountdown() {
         const seconds = timeLeft % 60;
         
         if(timerElement) {
-            timerElement.innerHTML = `
+            timerElement.innerHTML = 
                 <div class="flex justify-center gap-3 text-center">
                     <div class="timer-number">
                         <div class="text-2xl font-bold text-white">${String(hours).padStart(2, '0')}</div>
@@ -294,7 +295,7 @@ function startCountdown() {
                         <div class="text-xs text-gray-400">ثواني</div>
                     </div>
                 </div>
-            `;
+            ;
         }
         timeLeft--;
     }, 1000);
@@ -308,7 +309,7 @@ function render(){
 
     const messageClass = formData.messageType === "success" ? "text-green-600" : "text-red-600";
 
-    document.getElementById("root").innerHTML = `
+    document.getElementById("root").innerHTML = 
         <div class="max-w-5xl mx-auto p-4 py-8">
             <div class="card-animate">
                 <!-- شريط المبيعات -->
@@ -330,12 +331,12 @@ function render(){
                         
                         <!-- الميزات -->
                         <div class="grid grid-cols-2 gap-3 mt-4">
-                            ${PRODUCT.features.map(feature => `
+                            ${PRODUCT.features.map(feature => 
                                 <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center text-white feature-card transition">
                                     <i class="${feature.icon} text-2xl text-orange-500 mb-1"></i>
                                     <p class="text-sm">${feature.text}</p>
                                 </div>
-                            `).join('')}
+                            ).join('')}
                         </div>
                     </div>
 
@@ -401,7 +402,7 @@ function render(){
 
                         <!-- زر الطلب -->
                         <button id="btn" class="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-xl btn-glow font-bold text-lg relative overflow-hidden">
-                            ${formData.loading ? `<span class="loading"></span> جاري الإرسال...` : '🛒 تأكيد الطلب الآن'}
+                            ${formData.loading ? <span class="loading"></span> جاري الإرسال... : '🛒 تأكيد الطلب الآن'}
                         </button>
 
                         <!-- ضمانات -->
@@ -435,7 +436,7 @@ function render(){
                 </div>
             </div>
         </div>
-    `;
+    ;
 
     // ربط الأحداث
     bindEvents();
