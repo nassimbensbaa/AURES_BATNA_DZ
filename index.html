@@ -2,46 +2,62 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>متجر VIP | ساعة ذكية برو MAX - عرض خيالي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر VIP | ساعة ذكية برو MAX</title>
 
-    <!-- Tailwind + Fonts + Icons -->
+    <!-- Fonts & Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- إضافة favicon اختياري تحسين مظهر اللوجو صغير -->
-    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' font-size='40' text-anchor='middle' dy='.3em' fill='white' font-weight='bold'%3EVIP%3C/text%3E%3C/svg%3E">
 
     <style>
-        * { font-family: 'Cairo', sans-serif; }
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            margin: 0;
-            padding: 0;
         }
-        /* Animations existantes enrichies */
+
+        /* Animations */
         @keyframes float {
             0%,100% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
         }
+
         @keyframes pulse {
             0%,100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
             100% { background-position: 1000px 0; }
         }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
+
         .title-float {
             animation: float 3s ease-in-out infinite;
             background: linear-gradient(135deg, #f59e0b, #ef4444, #f59e0b);
@@ -49,12 +65,15 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            animation: float 3s ease-in-out infinite, shimmer 3s ease infinite;
         }
+
         .btn-glow {
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
+
         .btn-glow:before {
             content: '';
             position: absolute;
@@ -67,25 +86,30 @@
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
+
         .btn-glow:hover:before {
             width: 300px;
             height: 300px;
         }
+
         .btn-glow:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
         }
+
         input, select {
             border: 2px solid #e5e7eb;
             transition: all 0.3s ease;
             background: white;
         }
+
         input:focus, select:focus {
             border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
             outline: none;
             transform: scale(1.01);
         }
+
         .loading {
             width: 20px;
             height: 20px;
@@ -95,8 +119,19 @@
             animation: spin 0.8s linear infinite;
             display: inline-block;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .card-animate { animation: fadeInUp 0.6s ease-out; }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .card-animate {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         .discount-badge {
             position: absolute;
             top: -10px;
@@ -104,6 +139,7 @@
             background: linear-gradient(135deg, #ef4444, #dc2626);
             animation: pulse 1.5s ease-in-out infinite;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -111,12 +147,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
             z-index: 1000;
             animation: fadeInUp 0.3s ease;
         }
+
         .modal-content {
             background: white;
             border-radius: 30px;
@@ -124,12 +161,14 @@
             width: 90%;
             animation: slideIn 0.3s ease;
         }
+
         .timer {
             background: linear-gradient(135deg, #1f2937, #111827);
             border-radius: 15px;
             padding: 12px;
             margin-top: 15px;
         }
+
         .timer-number {
             background: #374151;
             border-radius: 10px;
@@ -137,52 +176,48 @@
             min-width: 60px;
             text-align: center;
         }
+
         .feature-card {
             transition: all 0.3s ease;
         }
-        .feature-card:hover { transform: translateY(-5px); }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
         input.error {
             border-color: #ef4444;
             animation: shake 0.5s ease;
         }
+
         @keyframes shake {
             0%,100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
+
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
+
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(135deg, #f59e0b, #ef4444);
             border-radius: 10px;
         }
-        .flash-badge {
-            animation: blink 1s ease-in-out infinite;
-        }
+
+        /* New flash badges animation */
         @keyframes blink {
             0%, 100% { opacity: 1; transform: scale(1);}
-            50% { opacity: 0.8; transform: scale(1.02);}
+            50% { opacity: 0.8; transform: scale(1.05);}
         }
-        /* style nouveau pour le logo en haut */
-        .store-logo-area {
-            transition: all 0.2s ease;
-        }
-        .store-logo-area img {
-            max-height: 60px;
-            width: auto;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-        @media (max-width: 640px) {
-            .store-logo-area img { max-height: 50px; }
-        }
-        /* effet brillant */
-        .glow-text {
-            text-shadow: 0 0 4px rgba(255,215,0,0.5);
+        .flash-badge {
+            animation: blink 1s ease-in-out infinite;
         }
     </style>
 </head>
@@ -193,18 +228,18 @@
     <div class="modal-content p-6 text-center">
         <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
         <h3 class="text-2xl font-bold mb-2">تم استلام طلبك!</h3>
-        <p class="text-gray-600 mb-4">سنقوم بالتواصل معك خلال 24 ساعة لتأكيد التفاصيل</p>
-        <button onclick="closeModal()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition shadow-md">حسناً</button>
+        <p class="text-gray-600 mb-4">سنقوم بالتواصل معك خلال 24 ساعة</p>
+        <button onclick="closeModal()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition">حسناً</button>
     </div>
 </div>
 
 <script>
-// ================= إعدادات المنتج (نفس القيم) =================
+// ================= المنتج =================
 const PRODUCT = {
     name: "🔥 ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
-    image: "images/nassim.png.png",   // الصورة الأصلية كما هي
+    image: "images/nassim.png.png",
     features: [
         { icon: "fas fa-heartbeat", text: "قياس نبضات القلب" },
         { icon: "fas fa-charging-station", text: "بطارية تدوم 7 أيام" },
@@ -212,31 +247,68 @@ const PRODUCT = {
         { icon: "fas fa-water", text: "مقاومة الماء" }
     ]
 };
+
 const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
 
-// ================= أسعار التوصيل حسب الولاية (نفس القائمة) =================
+// ================= أسعار التوصيل حسب الولاية =================
 const shippingPrices = {
-    "أدرار": { office: 500, home: 900 }, "الشلف": { office: 400, home: 700 }, "الأغواط": { office: 500, home: 900 },
-    "أم البواقي": { office: 500, home: 900 }, "باتنة": { office: 500, home: 900 }, "بجاية": { office: 450, home: 800 },
-    "بسكرة": { office: 500, home: 900 }, "بشار": { office: 600, home: 1000 }, "البليدة": { office: 400, home: 700 },
-    "البويرة": { office: 450, home: 800 }, "تمنراست": { office: 700, home: 1200 }, "تبسة": { office: 500, home: 900 },
-    "تلمسان": { office: 500, home: 900 }, "تيارت": { office: 500, home: 900 }, "تيزي وزو": { office: 450, home: 800 },
-    "الجزائر": { office: 350, home: 600 }, "الجلفة": { office: 500, home: 900 }, "جيجل": { office: 450, home: 800 },
-    "سطيف": { office: 450, home: 800 }, "سعيدة": { office: 500, home: 900 }, "سكيكدة": { office: 450, home: 800 },
-    "بلعباس": { office: 500, home: 900 }, "عنابة": { office: 450, home: 800 }, "قالمة": { office: 500, home: 900 },
-    "قسنطينة": { office: 450, home: 800 }, "المدية": { office: 450, home: 800 }, "مستغانم": { office: 450, home: 800 },
-    "المسيلة": { office: 500, home: 900 }, "معسكر": { office: 500, home: 900 }, "ورقلة": { office: 600, home: 1000 },
-    "وهران": { office: 450, home: 800 }, "البيض": { office: 500, home: 900 }, "إليزي": { office: 800, home: 1300 },
-    "برج بوعريريج": { office: 450, home: 800 }, "بومرداس": { office: 400, home: 700 }, "الطارف": { office: 500, home: 900 },
-    "تندوف": { office: 800, home: 1300 }, "تيسمسيلت": { office: 500, home: 900 }, "الوادي": { office: 600, home: 1000 },
-    "خنشلة": { office: 500, home: 900 }, "سوق أهراس": { office: 500, home: 900 }, "تيبازة": { office: 400, home: 700 },
-    "ميلة": { office: 500, home: 900 }, "عين الدفلى": { office: 450, home: 800 }, "النعامة": { office: 500, home: 900 },
-    "عين تيموشنت": { office: 500, home: 900 }, "غرداية": { office: 600, home: 1000 }, "غليزان": { office: 500, home: 900 }
+    // الولايات الشمالية
+    "أدرار": { office: 500, home: 900 },
+    "الشلف": { office: 400, home: 700 },
+    "الأغواط": { office: 500, home: 900 },
+    "أم البواقي": { office: 500, home: 900 },
+    "باتنة": { office: 500, home: 900 },
+    "بجاية": { office: 450, home: 800 },
+    "بسكرة": { office: 500, home: 900 },
+    "بشار": { office: 600, home: 1000 },
+    "البليدة": { office: 400, home: 700 },
+    "البويرة": { office: 450, home: 800 },
+    "تمنراست": { office: 700, home: 1200 },
+    "تبسة": { office: 500, home: 900 },
+    "تلمسان": { office: 500, home: 900 },
+    "تيارت": { office: 500, home: 900 },
+    "تيزي وزو": { office: 450, home: 800 },
+    "الجزائر": { office: 350, home: 600 },
+    "الجلفة": { office: 500, home: 900 },
+    "جيجل": { office: 450, home: 800 },
+    "سطيف": { office: 450, home: 800 },
+    "سعيدة": { office: 500, home: 900 },
+    "سكيكدة": { office: 450, home: 800 },
+    "بلعباس": { office: 500, home: 900 },
+    "عنابة": { office: 450, home: 800 },
+    "قالمة": { office: 500, home: 900 },
+    "قسنطينة": { office: 450, home: 800 },
+    "المدية": { office: 450, home: 800 },
+    "مستغانم": { office: 450, home: 800 },
+    "المسيلة": { office: 500, home: 900 },
+    "معسكر": { office: 500, home: 900 },
+    "ورقلة": { office: 600, home: 1000 },
+    "وهران": { office: 450, home: 800 },
+    "البيض": { office: 500, home: 900 },
+    "إليزي": { office: 800, home: 1300 },
+    "برج بوعريريج": { office: 450, home: 800 },
+    "بومرداس": { office: 400, home: 700 },
+    "الطارف": { office: 500, home: 900 },
+    "تندوف": { office: 800, home: 1300 },
+    "تيسمسيلت": { office: 500, home: 900 },
+    "الوادي": { office: 600, home: 1000 },
+    "خنشلة": { office: 500, home: 900 },
+    "سوق أهراس": { office: 500, home: 900 },
+    "تيبازة": { office: 400, home: 700 },
+    "ميلة": { office: 500, home: 900 },
+    "عين الدفلى": { office: 450, home: 800 },
+    "النعامة": { office: 500, home: 900 },
+    "عين تيموشنت": { office: 500, home: 900 },
+    "غرداية": { office: 600, home: 1000 },
+    "غليزان": { office: 500, home: 900 }
 };
+
+// الحصول على قائمة الولايات مرتبة
 const allStates = Object.keys(shippingPrices).sort();
+
 let countdownTimer;
 
-// ========== حالة النموذج ==========
+// ================= الحالة =================
 let formData = {
     firstName: "",
     lastName: "",
@@ -248,87 +320,73 @@ let formData = {
     messageType: ""
 };
 
-function shippingPrice(state, type) {
+// ================= سعر التوصيل =================
+function shippingPrice(state, type){
     if(!state || !shippingPrices[state]) return type === "home" ? 700 : 400;
     return shippingPrices[state][type];
 }
 
-// ========== عداد تنازلي ==========
+// ================= عداد التوقيت =================
 function startCountdown() {
     let timeLeft = 3600;
     const timerElement = document.getElementById("timer");
     if (!timerElement) return;
+
     const interval = setInterval(() => {
         if (timeLeft <= 0) {
             clearInterval(interval);
-            if(timerElement) timerElement.innerHTML = "<div class='text-center text-white font-bold'>⌛ انتهى العرض! اتصل بنا</div>";
+            if(timerElement) timerElement.innerHTML = "انتهى العرض!";
             return;
         }
+        
         const hours = Math.floor(timeLeft / 3600);
         const minutes = Math.floor((timeLeft % 3600) / 60);
         const seconds = timeLeft % 60;
+        
         if(timerElement) {
             timerElement.innerHTML = `
                 <div class="flex justify-center gap-3 text-center">
-                    <div class="timer-number"><div class="text-2xl font-bold text-white">${String(hours).padStart(2, '0')}</div><div class="text-xs text-gray-400">ساعات</div></div>
+                    <div class="timer-number">
+                        <div class="text-2xl font-bold text-white">${String(hours).padStart(2, '0')}</div>
+                        <div class="text-xs text-gray-400">ساعات</div>
+                    </div>
                     <div class="text-2xl font-bold text-white">:</div>
-                    <div class="timer-number"><div class="text-2xl font-bold text-white">${String(minutes).padStart(2, '0')}</div><div class="text-xs text-gray-400">دقائق</div></div>
+                    <div class="timer-number">
+                        <div class="text-2xl font-bold text-white">${String(minutes).padStart(2, '0')}</div>
+                        <div class="text-xs text-gray-400">دقائق</div>
+                    </div>
                     <div class="text-2xl font-bold text-white">:</div>
-                    <div class="timer-number"><div class="text-2xl font-bold text-white">${String(seconds).padStart(2, '0')}</div><div class="text-xs text-gray-400">ثواني</div></div>
-                </div>`;
+                    <div class="timer-number">
+                        <div class="text-2xl font-bold text-white">${String(seconds).padStart(2, '0')}</div>
+                        <div class="text-xs text-gray-400">ثواني</div>
+                    </div>
+                </div>
+            `;
         }
         timeLeft--;
     }, 1000);
 }
 
-// Helper functions
-function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==="&") return "&amp;"; if(m==="<") return "&lt;"; if(m===">") return "&gt;"; return m;}); }
-function clearMessage() { formData.message = ""; formData.messageType = ""; }
-function showModal() { const modal = document.getElementById("successModal"); if(modal) modal.style.display = "flex"; }
-function closeModal() { const modal = document.getElementById("successModal"); if(modal) modal.style.display = "none"; }
-function removeError(el) { if(el) el.classList.remove("error"); }
-function showError(el) { if(el) el.classList.add("error"); setTimeout(() => { if(el) el.classList.remove("error"); }, 500);}
-
-// ========== عرض الصفحة مع إضافة شعار المتجر (بدون تعديل في التصميم الخلفي، فقط إضافة لوجو في أعلى الصفحة محافظاً على الألوان) ==========
-function render() {
+// ================= عرض الصفحة =================
+function render(){
     const shipping = shippingPrice(formData.state, formData.delivery);
     const total = finalPrice + shipping;
     const savedAmount = PRODUCT.price - finalPrice;
+
     const messageClass = formData.messageType === "success" ? "text-green-600" : "text-red-600";
-    const stateOptions = allStates.map(state => `<option value="${state}" ${formData.state === state ? "selected" : ""}>${state}</option>`).join('');
-    
-    // لوجو المتجر: نص مقروء + رمز أو يمكن عرض صورة SVG بسيطة مع الحفاظ على ألوان المتجر الأصلي (ذهبي/بنفسجي)
-    // تم إنشاء لوجو مميز على شكل أيقونة متجر + اسم "VIP Store" يتناغم مع الألوان الأساسية (gradient)
-    // واستخدمنا صورة بيانات base64 لرمز التاج بدلاً من تعديل الملفات الخارجية. العميل يريد إضافة شعار دون تعديل في التصميم الأصلي.
-    // ولإرضاء الطلب: نضيف شعار المتجر أعلى الهيدر بشكل أنيق مع الحفاظ على بقية التصميم كما هو تماماً.
-    // كما أن الخلفيات والألوان لم تُغير بل أضيف عنصر لوجو فقط.
-    
-    const storeLogoHTML = `
-        <div class="store-logo-area flex justify-between items-center bg-white/20 backdrop-blur-sm rounded-2xl px-5 py-2 mb-5 shadow-lg border border-white/30">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
-                    <i class="fas fa-crown text-white text-2xl"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-orange-500 to-red-500 bg-clip-text text-transparent">VIP STORE</div>
-                    <div class="text-[11px] text-white/80 flex items-center gap-1"><i class="fas fa-check-circle text-green-400 text-xs"></i> متجر معتمد | تسوق آمن</div>
-                </div>
-            </div>
-            <div class="hidden md:flex gap-2 text-white/80 text-sm">
-                <i class="fas fa-truck-fast"></i> <span>توصيل سريع</span>
-                <i class="fas fa-shield-alt mr-3"></i> <span>ضمان الجودة</span>
-            </div>
-        </div>
-    `;
-    
-    const mainHTML = `
-        <div class="max-w-5xl mx-auto p-4 py-6">
+
+    // إنشاء خيارات الولايات
+    const stateOptions = allStates.map(state => 
+        `<option value="${state}" ${formData.state === state ? "selected" : ""}>${state}</option>`
+    ).join('');
+
+    document.getElementById("root").innerHTML = `
+        <div class="max-w-5xl mx-auto p-4 py-8">
             <div class="card-animate">
-                ${storeLogoHTML}
                 <!-- شريط المبيعات مع ومضة -->
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-3 mb-6 text-center text-white flash-badge">
                     <i class="fas fa-fire text-orange-500"></i>
-                    <span class="font-bold">${Math.floor(Math.random() * 45) + 25}</span> شخص يشاهد هذا المنتج الآن
+                    <span class="font-bold">${Math.floor(Math.random() * 50) + 20}</span> شخص يشاهد هذا المنتج الآن
                     <i class="fas fa-eye mr-2"></i>
                 </div>
 
@@ -340,9 +398,11 @@ function render() {
                                 -${PRODUCT.discount}% خصم
                             </div>
                             <img src="${PRODUCT.image}" class="w-full rounded-2xl transition-transform duration-500 group-hover:scale-105" 
-                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/500x500?text=Smart+Watch+Pro+MAX'"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/500x500?text=Smart+Watch'"
                                  alt="ساعة ذكية">
                         </div>
+                        
+                        <!-- الميزات -->
                         <div class="grid grid-cols-2 gap-3 mt-4">
                             ${PRODUCT.features.map(feature => `
                                 <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center text-white feature-card transition">
@@ -379,10 +439,12 @@ function render() {
                             <input id="firstName" placeholder="الاسم *" value="${escapeHtml(formData.firstName)}" class="w-full p-3 rounded-xl">
                             <input id="lastName" placeholder="اللقب *" value="${escapeHtml(formData.lastName)}" class="w-full p-3 rounded-xl">
                             <input id="phone" placeholder="رقم الهاتف *" value="${escapeHtml(formData.phone)}" class="w-full p-3 rounded-xl" dir="ltr">
+                            
                             <select id="state" class="w-full p-3 rounded-xl">
                                 <option value="">اختر الولاية *</option>
                                 ${stateOptions}
                             </select>
+                            
                             <select id="delivery" class="w-full p-3 rounded-xl">
                                 <option value="office" ${formData.delivery === "office" ? "selected" : ""}>📦 توصيل للمكتب (${Math.round(shippingPrice(formData.state, "office"))} دج)</option>
                                 <option value="home" ${formData.delivery === "home" ? "selected" : ""}>🏠 توصيل للمنزل (${Math.round(shippingPrice(formData.state, "home"))} دج)</option>
@@ -391,9 +453,18 @@ function render() {
 
                         <!-- تفاصيل السعر -->
                         <div class="bg-gray-50 rounded-xl p-4 mt-4 space-y-2">
-                            <div class="flex justify-between"><span>سعر المنتج:</span><span class="font-bold">${Math.round(finalPrice)} دج</span></div>
-                            <div class="flex justify-between"><span>رسوم التوصيل:</span><span class="font-bold">${Math.round(shipping)} دج</span></div>
-                            <div class="border-t pt-2 flex justify-between text-lg font-bold"><span>المجموع:</span><span class="text-orange-600">${Math.round(total)} دج</span></div>
+                            <div class="flex justify-between">
+                                <span>سعر المنتج:</span>
+                                <span class="font-bold">${Math.round(finalPrice)} دج</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>رسوم التوصيل:</span>
+                                <span class="font-bold">${Math.round(shipping)} دج</span>
+                            </div>
+                            <div class="border-t pt-2 flex justify-between text-lg font-bold">
+                                <span>المجموع:</span>
+                                <span class="text-orange-600">${Math.round(total)} دج</span>
+                            </div>
                         </div>
 
                         <!-- زر الطلب -->
@@ -401,12 +472,12 @@ function render() {
                             ${formData.loading ? `<span class="loading"></span> جاري الإرسال...` : '🛒 تأكيد الطلب الآن'}
                         </button>
 
-                        <!-- ضمانات مصلحة الزبون + التوصيل -->
+                        <!-- ضمانات معدلة: تم استبدال تعليقات الفايسبوك بمعلومات مصلحة الزبون والتوصيل السريع -->
                         <div class="grid grid-cols-2 gap-3 mt-6 text-center text-sm">
                             <div class="bg-orange-50 p-3 rounded-xl transition hover:scale-105">
                                 <i class="fas fa-headset text-orange-600 text-2xl mb-1"></i>
                                 <p class="font-bold text-gray-800">مصلحة الزبائن</p>
-                                <p class="text-orange-600 font-bold text-md dir-ltr">0659418701</p>
+                                <p class="text-orange-600 font-bold text-md mt-1 dir-ltr">0659418701</p>
                                 <p class="text-xs text-gray-500">متاحة 24/7</p>
                             </div>
                             <div class="bg-green-50 p-3 rounded-xl transition hover:scale-105">
@@ -419,7 +490,7 @@ function render() {
                         
                         <!-- ومضات إضافية للمتجر الإلكتروني -->
                         <div class="flex justify-around mt-4 pt-2 border-t border-dashed text-xs font-bold">
-                            <div class="flash-badge"><i class="fas fa-tags text-red-500 ml-1"></i> عروض حصرية</div>
+                            <div class="flash-badge"><i class="fas fa-tags text-red-500 ml-1"></i> عروض حصرية أونلاين</div>
                             <div><i class="fas fa-undo-alt text-blue-500 ml-1"></i> استبدال مجاني</div>
                             <div><i class="fas fa-lock text-purple-500 ml-1"></i> دفع آمن عند الاستلام</div>
                         </div>
@@ -428,24 +499,40 @@ function render() {
                     </div>
                 </div>
                 
-                <!-- قسم الخدمات الإضافية التسويقية (بدون تعليقات فيسبوك) -->
+                <!-- قسم الخدمات الإضافية وومضات المتجر - حذف تعليقات فيسبوك بالكامل واستبدالها بلمسات تسويقية-->
                 <div class="mt-8 bg-gradient-to-l from-indigo-50 to-white rounded-3xl p-5 shadow-lg">
                     <div class="text-center mb-3">
                         <i class="fas fa-store text-indigo-600 text-2xl"></i>
                         <h3 class="font-bold text-lg text-gray-800 mr-2">مميزات التسوق من متجر VIP</h3>
                     </div>
                     <div class="grid md:grid-cols-4 gap-4">
-                        <div class="text-center p-2"><i class="fas fa-shipping-fast text-blue-600 text-3xl mb-2 block"></i><p class="font-bold text-sm">توصيل فوري خلال 48 ساعة</p><p class="text-xs text-gray-500">للطلبات قبل 2 ظهراً</p></div>
-                        <div class="text-center p-2"><i class="fas fa-wallet text-green-600 text-3xl mb-2 block"></i><p class="font-bold text-sm">الدفع عند الاستلام</p><p class="text-xs text-gray-500">اطلب وادفع بعد الاستلام</p></div>
-                        <div class="text-center p-2"><i class="fas fa-medal text-yellow-600 text-3xl mb-2 block"></i><p class="font-bold text-sm">ضمان استعادة الحقوق</p><p class="text-xs text-gray-500">14 يوم لاسترجاع المنتج</p></div>
-                        <div class="text-center p-2 relative flash-badge"><i class="fas fa-gem text-purple-600 text-3xl mb-2 block"></i><p class="font-bold text-sm">تخفيضات VIP</p><p class="text-xs text-gray-500">خصم إضافي على الطلبات الكبيرة</p></div>
+                        <div class="text-center p-2">
+                            <i class="fas fa-shipping-fast text-blue-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">توصيل فوري خلال 48 ساعة</p>
+                            <p class="text-xs text-gray-500">للطلبات قبل 2 ظهراً</p>
+                        </div>
+                        <div class="text-center p-2">
+                            <i class="fas fa-wallet text-green-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">الدفع عند الاستلام</p>
+                            <p class="text-xs text-gray-500">اطلب وادفع بعد الاستلام</p>
+                        </div>
+                        <div class="text-center p-2">
+                            <i class="fas fa-medal text-yellow-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">ضمان استعادة الحقوق</p>
+                            <p class="text-xs text-gray-500">14 يوم لاسترجاع المنتج</p>
+                        </div>
+                        <div class="text-center p-2 relative flash-badge">
+                            <i class="fas fa-gem text-purple-600 text-3xl mb-2 block"></i>
+                            <p class="font-bold text-sm">تخفيضات VIP</p>
+                            <p class="text-xs text-gray-500">خصم إضافي على الطلبات الكبيرة</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     `;
-    
-    document.getElementById("root").innerHTML = mainHTML;
+
+    // ربط الأحداث
     bindEvents();
     startCountdown();
 }
@@ -457,7 +544,7 @@ function bindEvents() {
     const stateSelect = document.getElementById("state");
     const deliverySelect = document.getElementById("delivery");
     const btn = document.getElementById("btn");
-    
+
     if(firstNameInput) firstNameInput.oninput = (e) => { formData.firstName = e.target.value; clearMessage(); removeError(e.target); };
     if(lastNameInput) lastNameInput.oninput = (e) => { formData.lastName = e.target.value; clearMessage(); removeError(e.target); };
     if(phoneInput) phoneInput.oninput = (e) => { formData.phone = e.target.value; clearMessage(); removeError(e.target); };
@@ -466,8 +553,44 @@ function bindEvents() {
     if(btn) btn.onclick = submitOrder;
 }
 
-// ========== إرسال الطلب مع محاكاة الخادم (API) ==========
-async function submitOrder() {
+function removeError(element) {
+    if(element) element.classList.remove("error");
+}
+
+function showError(element) {
+    if(element) element.classList.add("error");
+    setTimeout(() => {
+        if(element) element.classList.remove("error");
+    }, 500);
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === "&") return "&amp;";
+        if (m === "<") return "&lt;";
+        if (m === ">") return "&gt;";
+        return m;
+    });
+}
+
+function clearMessage() {
+    formData.message = "";
+    formData.messageType = "";
+}
+
+function showModal() {
+    const modal = document.getElementById("successModal");
+    if(modal) modal.style.display = "flex";
+}
+
+function closeModal() {
+    const modal = document.getElementById("successModal");
+    if(modal) modal.style.display = "none";
+}
+
+// ================= إرسال الطلب =================
+async function submitOrder(){
     if(!formData.firstName){
         formData.message = "❌ الرجاء إدخال الاسم";
         formData.messageType = "error";
@@ -496,6 +619,7 @@ async function submitOrder() {
         showError(document.getElementById("state"));
         return;
     }
+
     const phoneRegex = /^(05|06|07)[0-9]{8}$/;
     if(!phoneRegex.test(formData.phone)){
         formData.message = "❌ رقم الهاتف غير صحيح (يجب أن يبدأ بـ 05 أو 06 أو 07)";
@@ -504,16 +628,15 @@ async function submitOrder() {
         showError(document.getElementById("phone"));
         return;
     }
-    
+
     formData.loading = true;
     formData.message = "";
     render();
-    
+
     const shipping = shippingPrice(formData.state, formData.delivery);
     const total = finalPrice + shipping;
-    
+
     try {
-        // محاكاة API فعلية (نفس منطق الباكند سليم) 
         const res = await fetch("/api/send", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -528,10 +651,22 @@ async function submitOrder() {
                 productName: PRODUCT.name
             })
         });
+
         let data;
-        try { data = await res.json(); } catch(e) { throw new Error("استجابة خادم غير متوقعة"); }
+        try {
+            data = await res.json();
+        } catch(e) {
+            throw new Error("خطأ في استجابة السيرفر");
+        }
+
         if(data && data.ok === true){
-            formData.firstName = ""; formData.lastName = ""; formData.phone = ""; formData.state = "";
+            formData.message = "";
+            formData.messageType = "success";
+            formData.firstName = "";
+            formData.lastName = "";
+            formData.phone = "";
+            formData.state = "";
+            
             formData.loading = false;
             render();
             showModal();
@@ -540,22 +675,19 @@ async function submitOrder() {
             formData.messageType = "error";
             formData.loading = false;
             render();
+            console.error("Server error response:", data);
         }
-    } catch(err) {
-        // تجاوز الخطأ: إذا كان الخادم غير موجود، نظهر نجاح وهمي للعرض (ولكن للحفاظ على التجربة سوف نعطي رسالة نجاح وهمية فقط لأغراض العرض)
-        // لكن نتبع نفس الأصل في حالة عدم وجود API حقيقي - لطلبات العميل يمكن اعتبار العملية ناجحة تجريبياً.
-        // لكن للحفاظ على تجربة حقيقية سنظهر نجاح وهمي إذا كان الخطأ بسبب عدم وجود خادم، لكن مع الحفاظ على الكود الأصلي.
-        // نظراً لأن البيئة تجريبية ونحن نضيف شعار فقط دون تغيير الجوهر، سأجعل الإرسال ينجح تجريبياً (مع إعلام المستخدم)
-        // هذا لا يؤثر على هيكل التصميم المطلوب. ويمكن استبداله لاحقاً.
-        console.warn("API غير موجود، محاكاة نجاح الطلب لإظهار تجربة العميل");
-        formData.firstName = ""; formData.lastName = ""; formData.phone = ""; formData.state = "";
+    } catch(err){
+        formData.message = "❌ خطأ في الاتصال بالخادم: " + err.message;
+        formData.messageType = "error";
         formData.loading = false;
         render();
-        showModal();
+        console.error("Fetch error:", err);
     }
 }
 
 render();
 </script>
+
 </body>
 </html>
