@@ -230,7 +230,10 @@ const PRODUCT = {
     name: "🔥 ساعة ذكية برو MAX",
     price: 12990,
     discount: 28,
-    image: "images/nassim.png",
+    image: "images/nassim.png"
+};
+
+const finalPrice = PRODUCT.price * (1 - PRODUCT.discount / 100);
     // ✅ تم إضافة خاصية features (الميزات)
     features: [
         { icon: "fas fa-heartbeat", text: "قياس نبضات القلب" },
